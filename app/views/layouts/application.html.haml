@@ -1,10 +1,18 @@
 !!!
-%html
+%html{:lang => "ja"}
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
     %title Twilog Scraping
+    %meta{:content => "", :name => "keywords"}
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
+
+    = render 'layouts/shim'
   %body
-    = yield
+    %div.container
+      = yield
+      = render 'layouts/footer'
+
