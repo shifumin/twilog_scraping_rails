@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get 'tweets/home'
-
-  get 'tweets/view'
+  root 'tweets#home'
+  get 'view' => 'tweets#view'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
