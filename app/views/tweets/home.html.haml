@@ -1,6 +1,20 @@
-%h1 Twilog Scraping
-%p Twilog ScrapingはTwilogをスクレイピングするWebアプリです。
+%h1 ツイスク(仮称)
+%p
+  ツイスク(Twilog Scraping)は指定したTwitterIDの指定した月のツイートをまとめて取得するWebアプリです。
+  TwilogをスクレイピングするのでTwilogに登録されていないアカウントには使えません。
 
-%h2 使い方
-%p 前提 : Twilogにアカウントを登録されてあるTwitterIDのツイートをスクレイピングできます。
+.row
+  .col-md-6.col-md-offset-3
+    = form_for(@tweet) do |f|
+      = render 'shared/error_messages'
 
+      = f.label :twitterid, "表示させるTwitterID"
+      = f.text_field :twitterid, calss: 'form-control'
+
+      = f.label :tweetdate, "表示させる月"
+      = f.date_select :tweetdate, use_month_numbers: true, discard_day: true, start_year: 2006, end_year: Time.now.year, class: 'form-control'
+
+      = f.label :リプライを含める
+      = f.check_box :reply
+
+      = f.submit "表示", class: "btn btn-primary"
