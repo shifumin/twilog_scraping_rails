@@ -2,6 +2,10 @@ Twilog-Scraping-Rails
 ===============
 Twilog-Scraping-RailsはTwilogに登録されてある指定したTwitterIDの指定した付きのツイートをまとめて取得表示するWebアプリです(作成途中)
 
+
+![ツイスク](https://goo.gl/photos/32rc35eEYcVpPNBb6 "サンプル")
+
+
 ## ToDo
 
 * フォームから変数受け渡しの処理の実装
