@@ -17,6 +17,9 @@ gem 'therubyracer', platforms: :ruby
 gem 'bcrypt'
 gem 'unicorn'
 
+gem 'nokogiri'
+gem 'open-uri'
+
 group :development do
   gem 'spring'
   gem 'capistrano'
