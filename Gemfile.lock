@@ -295,6 +295,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   mysql2 (~> 0.3.20)
+  nokogiri
   pry
   pry-byebug
   pry-doc
