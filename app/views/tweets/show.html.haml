@@ -1,4 +1,8 @@
 %h1 Tweets#show
+
+# ToDo : ツイートの表示を実装する
 %p
   = @tweet.twitterid
-  = @tweet.tweetdate
+  = @tweet.tweetdate.year
+  = @tweet.tweetdate.month
+  = @tweet.reply
