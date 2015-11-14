@@ -25,8 +25,11 @@ group :development do
   gem 'guard-rspec'
 
   # debug
+  gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'bullet'
+  gem 'quiet_assets'
   gem 'pry'
   gem 'pry-doc'
   gem 'pry-byebug'
