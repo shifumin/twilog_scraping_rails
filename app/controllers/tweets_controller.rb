@@ -1,14 +1,19 @@
+require 'open-uri'
+
 class TweetsController < ApplicationController
-  def home
+  before_action :set_tweet, only: [:show]
+
+  def new
     @tweet = Tweet.new
   end
 
-  def view
-    @tweet = Tweet.find(params[:id])
-  end
-
   def show
-    @tweet = Tweet.find(params[:id])
+    twitterid = @tweet.twitterid
+    year = @tweet.tweetdate.year
+    month = @tweet.tweetdate.month
+    # reply = @tweet.reply
+
+    @output_array = get_tweet_data(twitterid, year, month)
   end
 
   def create
@@ -16,7 +21,7 @@ class TweetsController < ApplicationController
     if @tweet.save
       redirect_to @tweet
     else
-      render 'home'
+      render 'new'
     end
   end
 
@@ -24,5 +29,58 @@ class TweetsController < ApplicationController
 
   def tweet_params
     params.require(:tweet).permit(:twitterid, :tweetdate, :reply)
+  end
+
+  def set_tweet
+    @tweet = Tweet.find(params[:id])
+  end
+
+  # Twilogからツイートデータをスクレイピングするメソッド
+  def get_tweet_data(twitterid, year, month)
+    base_url = "http://twilog.org"
+    output_array = []
+
+    # 2015年4月なら1504を代入したい
+    year_month = "#{year - 2000}" + format("%02d", month)
+
+    31.downto(1) do |num|
+      # 1桁の場合も2桁に修正する
+      day = format("%02d", num)
+
+      url = "#{base_url}/#{twitterid}/date-#{year_month}#{day}"
+      doc = get_nokogiri_doc(url)
+      sleep(1)
+      next unless has_tweet_texts?(doc)
+      hash = {}
+      tweets = []
+
+      hash[:date] = doc.xpath("//div[@id='content']/h3/a[1]").text
+      hash[:count] = doc.xpath("//div[@id='content']/h3/span").text
+      doc.xpath("//article[@class='tl-tweet']/p[@class='tl-text']").each do |node|
+        tweets << node.text
+      end
+      hash[:tweets] = tweets
+
+      output_array << hash
+    end
+    output_array
+  end
+
+  # URLからHTMLをパースしてオブジェクトを返すメソッド
+  def get_nokogiri_doc(url)
+    # UserAgentをIEに設定
+    user_agent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0)"
+
+    begin
+      html = open(url, "User-Agent" => user_agent)
+    rescue OpenURI::HTTPError
+      return
+    end
+    Nokogiri::HTML(html.read, nil, 'UTF-8')
+  end
+
+  # その日にツイートがあるかどうかを調べるメソッド
+  def has_tweet_texts?(doc)
+    !doc.xpath("//div[@id='content']/h3").empty?
   end
 end
