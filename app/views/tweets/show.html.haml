@@ -1,8 +1,18 @@
-%h1 Tweets#show
-
-# ToDo : ツイートの表示を実装する
 %p
+  @
   = @tweet.twitterid
+  の
   = @tweet.tweetdate.year
+  年
   = @tweet.tweetdate.month
-  = @tweet.reply
+  月のツイート
+%br
+
+%p
+  - @output_array.each do |node|
+    = node[:date]
+    = node[:count]
+    %br
+    - node[:tweets].each do |text|
+      = text
+      %br
