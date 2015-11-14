@@ -33,5 +33,8 @@ module TwilogScraping
     config.active_record.raise_in_transactional_callbacks = true
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    #  Quite Assets
+    # config.quiet_assets = false
   end
 end
