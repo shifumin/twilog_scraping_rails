@@ -10,9 +10,10 @@
 
 %p
   - @output_array.each do |node|
-    = node[:date]
-    = node[:count]
-    %br
-    - node[:tweets].each do |text|
-      = text
+    %p
+      = node[:date]
+      = node[:count]
       %br
+      - node[:tweets].each do |text|
+        = text
+        %br
