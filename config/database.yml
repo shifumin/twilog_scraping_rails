@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: twilog-scraping_production
-  username: twilog-scraping
+  username: railsuser
   password: <%= ENV['TWILOG-SCRAPING_DATABASE_PASSWORD'] %>
