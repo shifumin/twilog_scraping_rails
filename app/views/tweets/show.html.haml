@@ -5,15 +5,16 @@
   = @tweet.tweetdate.year
   年
   = @tweet.tweetdate.month
-  月のツイート
+  月
+  = @tweet.tweetdate.day
+  日
+  のツイート
 %br
 
 %p
-  - @output_array.each do |node|
-    %p
-      = node[:date]
-      = node[:count]
-      %br
-      - node[:tweets].each do |text|
-        = text
-        %br
+  = @output_hash[:date]
+  = @output_hash[:count]
+  %br
+  - @output_hash[:tweets].each do |text|
+    = text
+    %br
