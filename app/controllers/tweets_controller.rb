@@ -11,9 +11,10 @@ class TweetsController < ApplicationController
     twitterid = @tweet.twitterid
     year = @tweet.tweetdate.year
     month = @tweet.tweetdate.month
+    day = @tweet.tweetdate.day
     # reply = @tweet.reply
 
-    @output_array = get_tweet_data(twitterid, year, month)
+    @output_hash = get_tweet_data(twitterid, year, month, day)
   end
 
   def create
@@ -36,34 +37,28 @@ class TweetsController < ApplicationController
   end
 
   # Twilogからツイートデータをスクレイピングするメソッド
-  def get_tweet_data(twitterid, year, month)
+  def get_tweet_data(twitterid, year, month, day)
     base_url = "http://twilog.org"
-    output_array = []
 
     # 2015年4月なら1504を代入したい
     year_month = "#{year - 2000}" + format("%02d", month)
 
-    31.downto(1) do |num|
-      # 1桁の場合も2桁に修正する
-      day = format("%02d", num)
+    # 1桁の場合も2桁に修正する
+    day = format("%02d", day)
 
-      url = "#{base_url}/#{twitterid}/date-#{year_month}#{day}"
-      doc = get_nokogiri_doc(url)
-      sleep(1)
-      next unless has_tweet_texts?(doc)
-      hash = {}
-      tweets = []
+    url = "#{base_url}/#{twitterid}/date-#{year_month}#{day}"
+    doc = get_nokogiri_doc(url)
+    output_hash = {}
+    tweets = []
 
-      hash[:date] = doc.xpath("//div[@id='content']/h3/a[1]").text
-      hash[:count] = doc.xpath("//div[@id='content']/h3/span").text
-      doc.xpath("//article[@class='tl-tweet']/p[@class='tl-text']").each do |node|
-        tweets << node.text
-      end
-      hash[:tweets] = tweets
-
-      output_array << hash
+    output_hash[:date] = doc.xpath("//div[@id='content']/h3/a[1]").text
+    output_hash[:count] = doc.xpath("//div[@id='content']/h3/span").text
+    doc.xpath("//article[@class='tl-tweet']/p[@class='tl-text']").each do |node|
+      tweets << node.text
     end
-    output_array
+    output_hash[:tweets] = tweets
+
+    output_hash
   end
 
   # URLからHTMLをパースしてオブジェクトを返すメソッド
