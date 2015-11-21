@@ -10,13 +10,13 @@
     = form_for(@tweet) do |f|
       = render 'shared/error_messages', object: f.object
 
-      = f.label :twitterid, "表示させるTwitterID"
+      = f.label :twitterid, '表示させるTwitterID'
       = f.text_field :twitterid, calss: 'form-control'
 
-      = f.label :tweetdate, "表示させる年と月"
-      = f.date_select :tweetdate, use_month_numbers: true, discard_day: true, start_year: 2006, end_year: Time.now.year, class: 'form-control'
+      = f.label :tweetdate, '表示させる日'
+      = f.date_select :tweetdate, use_month_numbers: true, start_year: 2009, end_year: Time.now.year, class: 'form-control bootstrap-date'
 
-      = f.label :reply, "リプライを含めるか(未実装)"
-      = f.check_box :reply
+      -# = f.label :reply, "リプライを含めるか(未実装)"
+      -# = f.check_box :reply
 
-      = f.submit "表示", class: "btn btn-primary"
+      = f.submit '表示', class: 'btn btn-primary'
