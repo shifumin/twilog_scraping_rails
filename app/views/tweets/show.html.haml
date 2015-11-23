@@ -1,14 +1,5 @@
 %p
-  @
-  = @tweet.twitterid
-  の
-  = @tweet.tweetdate.year
-  年
-  = @tweet.tweetdate.month
-  月
-  = @tweet.tweetdate.day
-  日
-  のツイート
+  @#{@tweet.twitterid}の#{@tweet.tweetdate.year}年#{@tweet.tweetdate.month}月#{@tweet.tweetdate.day}日のツイート
 %br
 
 %p
