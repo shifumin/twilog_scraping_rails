@@ -9,8 +9,5 @@ Twilog-Scraping-RailsはTwilog( http://twilog.org/ )に登録されてある指�
 
 ## ToDo
 
-* 指定TwiiterIDがTwilogに登録されているかの確認の実装
 * リプライを含めるかどうかの実装
-* リツイートを含めるかどうかの実装
-* スクレイピング間隔の調整
 * デザインの調整
