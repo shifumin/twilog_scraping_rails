@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:show]
+  before_action :set_tweet, only: [:show, :create]
 
   def new
     @tweet = Tweet.new
@@ -18,9 +18,8 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweet = Tweet.new(tweet_params)
     if @tweet.save
-      redirect_to @tweet
+      redirect_to tweets_show_path(@tweet)
     else
       render 'new'
     end
@@ -33,7 +32,7 @@ class TweetsController < ApplicationController
   end
 
   def set_tweet
-    @tweet = Tweet.find(params[:id])
+    @tweet = Tweet.new(tweet_params)
   end
 
   # Twilogからツイートデータをスクレイピングするメソッド
