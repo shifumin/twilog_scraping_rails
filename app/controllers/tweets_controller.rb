@@ -48,17 +48,25 @@ class TweetsController < ApplicationController
 
     url = "#{base_url}/#{twitterid}/date-#{year_month}#{day}"
     doc = get_nokogiri_doc(url)
-    output_hash = {}
-    tweets = []
 
-    output_hash[:date] = doc.xpath("//div[@id='content']/h3/a[1]").text
-    output_hash[:count] = doc.xpath("//div[@id='content']/h3/span").text
-    doc.xpath("//article[@class='tl-tweet']/p[@class='tl-text']").each do |node|
-      tweets << node.text
+    # 指定されたTwitterIDがTwilogに登録されてあれば、ツイートを表示
+    # 登録されていなければ、その旨を表示する
+    if register_twilog?(doc)
+      output_hash = {}
+      tweets = []
+
+      output_hash[:date] = doc.xpath("//div[@id='content']/h3/a[1]").text
+      output_hash[:count] = doc.xpath("//div[@id='content']/h3/span").text
+      doc.xpath("//article[@class='tl-tweet']/p[@class='tl-text']").each do |node|
+        tweets << node.text
+      end
+      output_hash[:tweets] = tweets
+
+      output_hash
+
+    else
+      render text: '指定されたTwitterIDはTwilogに登録されていません。'
     end
-    output_hash[:tweets] = tweets
-
-    output_hash
   end
 
   # URLからHTMLをパースしてオブジェクトを返すメソッド
@@ -72,6 +80,11 @@ class TweetsController < ApplicationController
       return
     end
     Nokogiri::HTML(html.read, nil, 'UTF-8')
+  end
+
+  # 指定TwitterIDがTwilogに登録されてあるかを調べるメソッド
+  def register_twilog?(doc)
+    doc.xpath("//p[@class='box-title']").text != "ユーザーが見つかりませんでした"
   end
 
   # その日にツイートがあるかどうかを調べるメソッド
