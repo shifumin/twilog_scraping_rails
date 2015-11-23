@@ -43,7 +43,7 @@ class TweetsController < ApplicationController
     # 2015年4月なら1504を代入したい
     year_month = "#{year - 2000}" + format("%02d", month)
 
-    # 1桁の場合も2桁に修正する
+    # URLの関係上、日付が1桁の場合も2桁に修正する e.g. 5(日) => "05"
     day = format("%02d", day)
 
     url = "#{base_url}/#{twitterid}/date-#{year_month}#{day}"
